@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-prod": "node server.js",
-    "start-dev": "nodemon server.js",
+    "start-prod": "node server/server.js",
+    "start-dev": "nodemon server/server.js",
     "start-webpack": "webpack --watch --mode development --progress"
   },
   "author": "",
@@ -25,6 +25,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "style-loader": "^2.0.0",
+    "styled-components": "^5.2.3",
     "webpack": "^5.35.1",
     "webpack-cli": "^4.6.0"
   }

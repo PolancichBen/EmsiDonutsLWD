@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import 'regenerator-runtime/runtime';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -8,12 +9,11 @@ import ChooseYourShop from './components/chooseYourShop.jsx';
 const Main = () => {
   const [shops, setShops] = useState([]);
   const [error, setError] = useState(false);
-  const [id, setId] = useState(null);
+  const [shopInfo, setShopInfo] = useState({});
   const [inventory, setInventory] = useState([]);
   const [changingShops, setChangingShops] = useState(false);
 
   useEffect(() => {
-    console.log('fire');
     axios
       .get('https://donutshop-api.herokuapp.com/shops')
       .then((response) => setShops(response.data))
@@ -24,16 +24,20 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    if (typeof id === 'number') {
-      axios
-        .get(`https://donutshop-api.herokuapp.com/inventory?id=${id}`)
-        .then((response) => setInventory(response.data.donuts))
-        .catch((e) => {
-          console.error(e);
-          setError(true);
-        });
-    }
-  }, [id]);
+    (async () => {
+      if (typeof shopInfo.id === 'number') {
+        await axios
+          .get(
+            `https://donutshop-api.herokuapp.com/inventory?id=${shopInfo.id}`
+          )
+          .then((response) => setInventory(response.data.donuts))
+          .catch((e) => {
+            console.error(e);
+            setError(true);
+          });
+      }
+    })();
+  }, [shopInfo.id]);
 
   if (error) {
     return 'Error, Check Console';
@@ -45,11 +49,18 @@ const Main = () => {
       <ShopLandingPage
         inventory={inventory}
         setError={setError}
+        shopInfo={shopInfo}
         changingShops={setChangingShops}
       />
     );
   } else {
-    return <ChooseYourShop setId={setId} setError={setError} shops={shops} />;
+    return (
+      <ChooseYourShop
+        setShopInfo={setShopInfo}
+        setError={setError}
+        shops={shops}
+      />
+    );
   }
 };
 

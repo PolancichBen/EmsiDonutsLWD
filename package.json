@@ -10,6 +10,13 @@
     "start-webpack": "webpack --watch --mode development --progress"
   },
   "author": "",
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions"
+  ],
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.13.16",
